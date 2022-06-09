@@ -7,7 +7,7 @@ namespace KL
     public class WeaponHolderSlot : MonoBehaviour
     {
         public Transform parentOverride;
-        public bool isLeftHandSLot;
+        public bool isLeftHandSlot;
         public bool isRightHandSlot;
 
         public GameObject currentWeaponModel;
@@ -41,10 +41,11 @@ namespace KL
             GameObject model = Instantiate(weaponItem.modelPrefab) as GameObject;
             if(model != null)
             {
-                model.transform.parent = parentOverride;
-            }
-            else
-            {
+                if(parentOverride != null)
+                {
+                    model.transform.parent = parentOverride;
+                }
+                else
                 {
                     model.transform.parent = transform;
                 }

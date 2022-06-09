@@ -14,7 +14,7 @@ namespace KL
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
             {
-                if(weaponSlot.isLeftHandSLot)
+                if(weaponSlot.isLeftHandSlot)
                 {
                     leftHandSlot = weaponSlot;
                 }
