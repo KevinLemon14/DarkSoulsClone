@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace KL
 {
-    public class ResetAnimatorBool : StateMachineBehaviour
+    public class ResetAnimatorBoolTwo : StateMachineBehaviour
     {
 
         public string targetBool;

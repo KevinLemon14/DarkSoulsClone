@@ -15,15 +15,21 @@ public class InputHandler : MonoBehaviour
     public bool b_Input;
     public bool rb_Input;
     public bool rt_Input;
+    public bool d_Pad_Up;
+    public bool d_Pad_Down;
+    public bool d_Pad_Left;
+    public bool d_Pad_Right;
 
     public bool rollFlag;
     public bool sprintFlag;
+    public bool comboFlag;
     public float rollInputTimer;
 
 
     PlayerControls inputActions;
     PlayerAttacker playerAttacker;
     PlayerInventory playerInventory;
+    PlayerManager playerManager;
 
     Vector2 movementInput;
     Vector2 cameraInput;
@@ -32,6 +38,7 @@ public class InputHandler : MonoBehaviour
     {
         playerAttacker = GetComponent<PlayerAttacker>();
         playerInventory = GetComponent<PlayerInventory>();
+        playerManager = GetComponent<PlayerManager>();
     }
 
 
@@ -57,6 +64,7 @@ public class InputHandler : MonoBehaviour
         MoveInput(delta);
         HandleRollInput(delta);
         HandleAttackInput(delta);
+        HandleQuickSlotsInput();
     }
 
     private void MoveInput(float delta)
@@ -95,7 +103,17 @@ public class InputHandler : MonoBehaviour
 
         if(rb_Input)
         {
-            playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+            if (playerManager.canDoCombo)
+            {
+                comboFlag = true;
+                playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                comboFlag = false;
+            }
+            else
+            {
+                playerAttacker.HandleLightAttack(playerInventory.rightWeapon);
+            }
+            
         }
 
         if(rt_Input)
@@ -104,6 +122,20 @@ public class InputHandler : MonoBehaviour
         }
     }
 
+    private void HandleQuickSlotsInput()
+    {
+        inputActions.QuickSlots.DPadRight.performed += i => d_Pad_Right = true;
+        inputActions.QuickSlots.DPadLeft.performed += i => d_Pad_Left = true;
+
+        if (d_Pad_Right)
+        {
+            playerInventory.ChangeRightWeapon();
+        }
+        else if(d_Pad_Left)
+        {
+            playerInventory.ChangeLeftWeapon();
+        }
+    }
 
 
 }
